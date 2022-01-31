@@ -4,7 +4,7 @@ This application displays music which users can browse through and select to pla
 
 ![screenshot of jukebox](/assets/images/jukebox.png)
 
-Music is placed into the `/music` folder and when the application is opened the data from each .mp3 file placed into this folder is gathered. The title, artist and any album art from the file is loaded and displayed.
+Create a `music` folder within `assets`. Music is placed into the `/music` folder and when the application is opened the data from each .mp3 file placed into this folder is gathered. The title, artist and any album art from the file is loaded and displayed.
 
 ## Configuring the jukebox
 The `settings.ini` file contains a few settings that can be altered to change the appearance of the jukebox without altering the code. For example, if you want to use this application on a large touch screen, within the settings file you can modify how many rows of songs to show, and how many songs per row should be displayed.

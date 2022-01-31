@@ -1,174 +1,26 @@
 <?php
-// load settings file
-$config = parse_ini_file('settings.ini');
 
-$background_colour = $config['background_colour'];
-$rows_to_display = $config['rows_to_display'];
-$tracks_per_row =  $config['tracks_per_row'];
-$track_card_size = $config['track_card_size'];
-$song_artist_title_font_size = $config['song_artist_title_font_size'];
-$song_album_font_size = $config['song_album_font_size'];
+include 'load-settings.php';
+include 'load-songs.php';
 
-
-function loadSongs()
-{
-    return glob("music/*.mp3");
-}
-
-function getRandomSong($songs)
-{
-    return $songs[array_rand($songs)];
-}
-
-$songs = loadSongs();
-
-// // by default sorts by artist, below sorts by song title (name)
-// usort($songs, function($a, $b) { //Sort the array using a user defined function
-//     return $a->name > $b->name ? -1 : 1; //Compare the names
-// });                                                                                                                                                                                                        
-
-// obtains a random song
-//$randomSong = getRandomSong($songs);
-
-// ID3 engine https://github.com/JamesHeinrich/getID3/blob/master/demos/demo.basic.php
-// include getID3() library (can be in a different directory if full path is specified)
-require("getid3/getid3.php");
-
-// Initialize getID3 engine
-$getID3 = new getID3;
 ?>
 <html>
 
 <head>
-    <title></title>
+    <title>Jukebox</title>
     <!-- Load FontAwesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 
     <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-
     <!-- CSS style for audio player div -->
+    <link href="assets\css\styles.css" rel="stylesheet">
+
+    <!-- CSS styles added based on settings.ini configuration -->
     <style>
         body {
-            color: white;
             background-color: <?php echo $background_colour; ?>;
-            text-transform: capitalize;
-            /* overflow: hidden; */
-        }
-
-        .track-art {
-            /* margin: 25px; */
-            height: 75px;
-            width: 75px;
-            float: left;
-            margin: 0 25px 0 0;
-
-        }
-
-        .player-controls {
-            margin: 25px 0px;
-        }
-
-
-
-        .slider_container {
-            width: 75%;
-            max-width: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Modify the appearance of the slider */
-        .seek_slider,
-        .volume_slider {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            height: 5px;
-            background: white;
-            opacity: 0.7;
-            -webkit-transition: .2s;
-            transition: opacity .2s;
-        }
-
-        /* Modify the appearance of the slider thumb */
-        .seek_slider::-webkit-slider-thumb,
-        .volume_slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            width: 15px;
-            height: 15px;
-            background: white;
-            cursor: pointer;
-            border-radius: 50%;
-        }
-
-        .seek_slider:hover,
-        .volume_slider:hover {
-            opacity: 1.0;
-        }
-
-        .seek_slider {
-            width: 55%;
-            margin-top: 15px;
-        }
-
-        .volume_slider {
-            width: 15%;
-        }
-
-        .current-time,
-        .total-duration {
-            padding: 10px;
-        }
-
-        .current-time {
-            padding-left: 100px;
-        }
-
-        .seek-and-volume {
-            width: 100%;
-            float: left;
-        }
-
-        i.fa-volume-down,
-        i.fa-volume-up {
-            padding: 10px;
-        }
-
-        .card-body {
-            color: black;
-            min-height: 110px;
-        }
-
-        .carousel-control-prev,
-        .carousel-control-next {
-            width: 70px;
-        }
-
-        .card {
-            text-align: center;
-            border: none;
-        }
-
-        img.card-img-top {
-            min-height: 220px;
-        }
-
-        .btn {
-            width: 100%;
-            border-radius: 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        marquee {
-            width: 300px;
-            min-width: 300px;
-            float: left;
         }
 
         h5 {
@@ -251,8 +103,6 @@ $getID3 = new getID3;
                         </div>
                     </div>
 
-
-
                     <?php
 
                     // while in the for loop
@@ -283,7 +133,6 @@ $getID3 = new getID3;
                         var artist = element.getAttribute('data-artist');
                         var path = "music/" + element.getAttribute('data-file-path');
                         var image = element.getAttribute('data-image');
-
 
                         var track = {
                             "name": title,
@@ -332,7 +181,7 @@ $getID3 = new getID3;
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <script src="assets/music-player.js"></script>
+        <script src="assets/scripts/music-player.js"></script>
 </body>
 
 </html>

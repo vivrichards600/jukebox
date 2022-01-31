@@ -1,16 +1,25 @@
 # jukebox - A simple Jukebox built using PHP
 
-This repository displays music dropped into the `/music` folder like a digital jukebox. 
+This application displays music which users can browse through and select to play on as simple digital jukebox. 
 
-This 'Jukebox' will load the data from each mp3 file in order to find the title, album and cover art to display within the site. 
+![screenshot of jukebox](/assets/images/jukebox.png)
 
-Below are some todo's, some big, some nice to have's. This site works but might contain lots of issues and there is ZERO test coverage!!! 
+Music is placed into the `/music` folder and when `index.php` is opened the data from each .mp3 file placed into this folder is gathered. The title, artist and any album art from the file is loaded and displayed.
 
-To modify the number of rows, songs displayed on the page see the `settings.ini` file. Here various settings can be altered without altering the code, so if you have a bigger touch screen for example then you can modify how many songs to play per page.
+## Configuring the jukebox
+The `settings.ini` file contains a few settings that can be altered to change the appearance of the jukebox without altering the code. For example, if you hwant to use this application on a large touch screen, within the settings file you can modify how many rows of songs to show, and how many songs per row should be displayed.
 
+The application has a built in carousel which automatically rotates to let users browser through each page of songs. Users can also click through each page of songs by clicking on the left or right arrow on either side of the page. 
+
+## Running the jukebox
+On a windows machine with xampplite running, place this repository within the htdocs folder and then navigate to `http://localhost/jukebox/` to view and user the jukebox.
 ## TODO
+This was created very quickly as a proof of concept and works just about. It is highly likely it will contain many bugs.
+
+Below are some todo's which I plan to work on soon: 
+
 * Add tests
-* Add proper instructions to run this (currently I place this repo within htdocs of xampplite which is running locally on a windows machine and then navigate to `index.php`  to open the Jukebox
+* Add proper instructions to run this application
 * Add dummy mp3s for demo site to show how this works
 * clean up code / refactor - this was something thrown together as a proof of concept so will contain lots of bugs!!
 * Add ability to sort by song title
@@ -18,4 +27,3 @@ To modify the number of rows, songs displayed on the page see the `settings.ini`
 * Add ability to sort by album name
 * Display a playlist to see tracks coming up next
 * Remove track from playlist once it's played
-

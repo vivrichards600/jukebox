@@ -1,27 +1,28 @@
 # jukebox - A simple Jukebox built using PHP
 
-This application displays music which users can browse through and select to play on as simple digital jukebox. 
+This application displays music which users can browse through and select to play within this simple digital jukebox. 
 
 ![screenshot of jukebox](/assets/images/jukebox.png)
 
-Music is placed into the `/music` folder and when `index.php` is opened the data from each .mp3 file placed into this folder is gathered. The title, artist and any album art from the file is loaded and displayed.
+Music is placed into the `/music` folder and when the application is opened the data from each .mp3 file placed into this folder is gathered. The title, artist and any album art from the file is loaded and displayed.
 
 ## Configuring the jukebox
-The `settings.ini` file contains a few settings that can be altered to change the appearance of the jukebox without altering the code. For example, if you hwant to use this application on a large touch screen, within the settings file you can modify how many rows of songs to show, and how many songs per row should be displayed.
+The `settings.ini` file contains a few settings that can be altered to change the appearance of the jukebox without altering the code. For example, if you want to use this application on a large touch screen, within the settings file you can modify how many rows of songs to show, and how many songs per row should be displayed.
 
-The application has a built in carousel which automatically rotates to let users browser through each page of songs. Users can also click through each page of songs by clicking on the left or right arrow on either side of the page. 
+The application has a built in carousel which automatically rotates to let users view each page of songs. Users can also click through each page of songs by clicking on the left or right arrow on either side of the page. 
 
 ## Running the jukebox
-On a windows machine with xampplite running, place this repository within the htdocs folder and then navigate to `http://localhost/jukebox/` to view and user the jukebox.
+On a windows machine with xampplite running, place this repository within the htdocs folder and then navigate to `http://localhost/jukebox/` to view and use the jukebox.
 ## TODO
 This was created very quickly as a proof of concept and works just about. It is highly likely it will contain many bugs.
 
 Below are some todo's which I plan to work on soon: 
 
 * Add tests
+* Fix the weird html characters displayed when showing music title, artist and album test
 * Add proper instructions to run this application
-* Add dummy mp3s for demo site to show how this works
-* clean up code / refactor - this was something thrown together as a proof of concept so will contain lots of bugs!!
+* Add dummy mp3s to demonstrate which this application looks like and how it works
+* clean up code / refactor
 * Add ability to sort by song title
 * Add ability to sort by song artist
 * Add ability to sort by album name

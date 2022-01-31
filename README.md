@@ -1,10 +1,12 @@
-# jukebox
-Simple PHP Jukebox
-This repository displays music dropped into the `/music` folder like a digital jukebox. Click the arrows to skip through pages and click on `SELECT` to add a song to the playlist.
+# jukebox - A simple Jukebox built using PHP
+
+This repository displays music dropped into the `/music` folder like a digital jukebox. 
 
 This 'Jukebox' will load the data from each mp3 file in order to find the title, album and cover art to display within the site. 
 
 Below are some todo's, some big, some nice to have's. This site works but might contain lots of issues and there is ZERO test coverage!!! 
+
+To modify the number of rows, songs displayed on the page see the `settings.ini` file. Here various settings can be altered without altering the code, so if you have a bigger touch screen for example then you can modify how many songs to play per page.
 
 ## TODO
 * Add tests

@@ -1,4 +1,15 @@
 <?php
+// load settings file
+$config = parse_ini_file('settings.ini');
+
+$background_colour = $config['background_colour'];
+$rows_to_display = $config['rows_to_display'];
+$tracks_per_row =  $config['tracks_per_row'];
+$track_card_size = $config['track_card_size'];
+$song_artist_title_font_size = $config['song_artist_title_font_size'];
+$song_album_font_size = $config['song_album_font_size'];
+
+
 function loadSongs()
 {
     return glob("music/*.mp3");
@@ -10,7 +21,14 @@ function getRandomSong($songs)
 }
 
 $songs = loadSongs();
-$randomSong = getRandomSong($songs);
+
+// // by default sorts by artist, below sorts by song title (name)
+// usort($songs, function($a, $b) { //Sort the array using a user defined function
+//     return $a->name > $b->name ? -1 : 1; //Compare the names
+// });                                                                                                                                                                                                        
+
+// obtains a random song
+//$randomSong = getRandomSong($songs);
 
 // ID3 engine https://github.com/JamesHeinrich/getID3/blob/master/demos/demo.basic.php
 // include getID3() library (can be in a different directory if full path is specified)
@@ -34,9 +52,9 @@ $getID3 = new getID3;
     <style>
         body {
             color: white;
-            background-color: black;
+            background-color: <?php echo $background_colour; ?>;
             text-transform: capitalize;
-            overflow: hidden;
+            /* overflow: hidden; */
         }
 
         .track-art {
@@ -94,17 +112,26 @@ $getID3 = new getID3;
         }
 
         .seek_slider {
-            width: 90%;
+            width: 55%;
             margin-top: 15px;
         }
 
         .volume_slider {
-            width: 30%;
+            width: 15%;
         }
 
         .current-time,
         .total-duration {
             padding: 10px;
+        }
+
+        .current-time {
+            padding-left: 100px;
+        }
+
+        .seek-and-volume {
+            width: 100%;
+            float: left;
         }
 
         i.fa-volume-down,
@@ -114,7 +141,7 @@ $getID3 = new getID3;
 
         .card-body {
             color: black;
-            min-height: 115px;
+            min-height: 110px;
         }
 
         .carousel-control-prev,
@@ -127,6 +154,10 @@ $getID3 = new getID3;
             border: none;
         }
 
+        img.card-img-top {
+            min-height: 220px;
+        }
+
         .btn {
             width: 100%;
             border-radius: 0;
@@ -136,11 +167,16 @@ $getID3 = new getID3;
 
         marquee {
             width: 300px;
+            min-width: 300px;
             float: left;
         }
 
         h5 {
-            font-size: 1.05rem;
+            font-size: <?php echo $song_artist_title_font_size; ?>;
+        }
+
+        .card-text {
+            font-size: <?php echo $song_album_font_size; ?>;
         }
     </style>
 </head>
@@ -193,11 +229,22 @@ $getID3 = new getID3;
                 ?>
 
                     <div class="col">
-                        <div class="card" style="width: 14rem;">
-                            <img alt="<?php echo $song['tags']['id3v2']['album'][0]; ?> Album Art" class="card-img-top" src="<?php echo $base64; ?>" />
+                        <div class="card" style="width: <?php echo $track_card_size; ?>">
+
+                            <img alt="<?php echo $song['tags']['id3v2']['album'][0]; ?> Album Art" class="card-img-top" src="<?php if ($base64 != 'data:image/;base64,') {
+                                                                                                                                    echo $base64;
+                                                                                                                                } else {
+                                                                                                                                    echo 'assets/images/no-album-art.png';
+                                                                                                                                } ?>" />
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $song['tags']['id3v2']['artist'][0]; ?> - <?php echo $song['tags']['id3v2']['title'][0]; ?></h5>
-                                <p class="card-text">Album: <?php echo $song['tags']['id3v2']['album'][0]; ?></p>
+                                <p class="card-text">Album: <?php
+                                                            $album = 'Unknown';
+                                                            if ($song['tags']['id3v2']['album'][0] != '') {
+                                                                $album = $song['tags']['id3v2']['album'][0];
+                                                            }
+                                                            echo $album;
+                                                            ?></p>
                             </div>
                             <a href="#" class="btn btn-primary" data-artist="<?php echo $song['tags']['id3v2']['artist'][0]; ?>" data-image="<?php echo $base64; ?>" data-title="<?php echo $song['tags']['id3v2']['title'][0]; ?>" data-file-path="<?php echo $song['filename']; ?>" onclick="addTrackToPlaylist(this);">Select (<?php echo $song['playtime_string']; ?>)</a>
 
@@ -212,14 +259,14 @@ $getID3 = new getID3;
                     // we've just added a card to increase loop count for items in row
                     $itemsInRow += 1;
 
-                    // when we have 5 cards in row then close div
-                    if ($itemsInRow == 5) {
+                    // when we have max cards in row then close div
+                    if ($itemsInRow == $tracks_per_row) {
                         echo '</div>';
                         $itemsInRow = 0;
                         $numberOfRows += 1;
                     }
 
-                    if ($itemsInRow == 0 && $numberOfRows > 1) {
+                    if ($itemsInRow == 0 && $numberOfRows >= $rows_to_display) {
                         echo '</div>';
                         $numberOfRows = 0;
                     }
@@ -260,13 +307,17 @@ $getID3 = new getID3;
     </div>
     <div>
         <div class="player-controls">
-            <img class="track-art" alt="song art" src="assets/no-track.png" />
+            <img class="track-art" alt="song art" src="assets/images/no-track.png" />
+
             <h4>Now Playing:</h4>
             <marquee scrollamount="4">
                 <span class="track-artist"></span><span class="track-name"></span>
             </marquee>
-            <div><span class="current-time"></span><span class="total-duration"></span>
+            <div class="seek-and-volume"><span class="current-time">00:00</span><span class="total-duration">0:00</span>
                 <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
+                <i class="fa fa-volume-down"></i>
+                <input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
+                <i class="fa fa-volume-up"></i>
             </div>
 
             <div class="slider_container" style="display:none;">

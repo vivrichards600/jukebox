@@ -80,6 +80,12 @@ function nextTrack() {
     else track_index = 0;
     loadTrack(track_index);
     playTrack();
+
+//     // Remove track currently playing from playlist so it doesn't keep repeating
+//     const new_track_list = track_list.filter(e => e !== track_list[track_index]);
+//     track_list = new_track_list;
+//   //  if (track_list.length == 0) isPlaying = false;
+
 }
 
 function prevTrack() {

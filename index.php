@@ -145,7 +145,8 @@ include 'load-songs.php';
 
                         // update how many tracks in playlist
                         now_playing.textContent = "PLAYING " + (track_index + 1) + " OF " + track_list.length;
-
+                        
+                        getPlayingNext();
                     }
                 </script>
 
@@ -158,10 +159,16 @@ include 'load-songs.php';
         <div class="player-controls">
             <img class="track-art" alt="song art" src="assets/images/no-track.png" />
 
+            <div class="playing-now">
             <h4>Now Playing:</h4>
-            <marquee scrollamount="4">
                 <span class="track-artist"></span><span class="track-name"></span>
-            </marquee>
+            </div>
+            <div class="up-next">
+            <h4>Up Next:</h4>
+            
+                <span class="playing-next"></span>
+            </div>
+            
             <div class="seek-and-volume"><span class="current-time">00:00</span><span class="total-duration">0:00</span>
                 <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
                 <i class="fa fa-volume-down"></i>
@@ -176,6 +183,8 @@ include 'load-songs.php';
             </div>
             <div class="now-playing" style="display:none;">PLAYING x OF y</div>
         </div>
+
+        
 
         </footer>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

@@ -5,6 +5,8 @@ let track_art = document.querySelector(".track-art");
 let track_name = document.querySelector(".track-name");
 let track_artist = document.querySelector(".track-artist");
 
+let playing_next = document.querySelector(".playing-next");
+
 let playpause_btn = document.querySelector(".playpause-track");
 let next_btn = document.querySelector(".next-track");
 let prev_btn = document.querySelector(".prev-track");
@@ -29,7 +31,6 @@ function loadTrack(track_index) {
     clearInterval(updateTimer);
     resetValues();
 
-
     // If no tracks to play, don't play anything
     if (track_list.length === 0) {
         isPlaying = false;
@@ -37,10 +38,8 @@ function loadTrack(track_index) {
         track_art.src = 'assets/images/no-track.png';
         track_name.textContent = '';
         track_artist.textContent = '';
-        
     } else { // track(s) to play 
         // Load a new track
-        
         curr_track.src = track_list[track_index].path;
         curr_track.load();
 
@@ -59,7 +58,6 @@ function loadTrack(track_index) {
 
         // Move to the next track if the current one finishes playing
         curr_track.addEventListener("ended", nextTrack);
-
     }
 
 }
@@ -82,6 +80,15 @@ function playTrack() {
 
     const latest_track_list = track_list.filter(e => e !== track_list[track_index]);
     track_list = latest_track_list;
+    getPlayingNext();
+}
+
+function getPlayingNext() {
+    if(track_list.length > 0) {
+        playing_next.textContent = track_list[0].artist + ' - ' + track_list[0].name;
+    } else {
+        playing_next.textContent = '';
+    }
 }
 
 function pauseTrack() {

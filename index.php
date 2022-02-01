@@ -102,7 +102,7 @@ include 'load-songs.php';
                                                             echo $album;
                                                             ?></p>
                             </div>
-                            <button disabled type="button" class="btn btn-primary" data-artist="<?php echo $song['tags']['id3v2']['artist'][0]; ?>" data-image="<?php echo $base64; ?>" data-title="<?php echo $song['tags']['id3v2']['title'][0]; ?>" data-file-path="<?php echo $song['filename']; ?>" onclick="addTrackToPlaylist(this);">Select (<?php echo $song['playtime_string']; ?>)</a>
+                            <button type="button" class="btn btn-primary" data-artist="<?php echo $song['tags']['id3v2']['artist'][0]; ?>" data-image="<?php echo $base64; ?>" data-title="<?php echo $song['tags']['id3v2']['title'][0]; ?>" data-file-path="<?php echo $song['filename']; ?>" onclick="addTrackToPlaylist(this);">Select (<?php echo $song['playtime_string']; ?>)</a>
 
 
 

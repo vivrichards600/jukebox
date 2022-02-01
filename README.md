@@ -27,4 +27,3 @@ Below are some todo's which I plan to work on soon:
 * Add ability to sort by song artist
 * Add ability to sort by album name
 * Display a playlist to see tracks coming up next
-* Remove track from playlist once it's played

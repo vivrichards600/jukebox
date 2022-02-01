@@ -30,24 +30,39 @@ function loadTrack(track_index) {
     resetValues();
 
 
-    // Load a new track
-    curr_track.src = track_list[track_index].path;
-    curr_track.load();
+    // If no tracks to play, don't play anything
+    if (track_list.length === 0) {
+        isPlaying = false;
 
-    // Update details of the track
-    // track_art.style.backgroundImage = "url(" + track_list[track_index].image + ")";
-    track_art.src = track_list[track_index].image
-    track_name.textContent = track_list[track_index].name;
-    track_artist.textContent = track_list[track_index].artist + " - ";
-    now_playing.textContent = "PLAYING " + (track_index + 1) + " OF " + track_list.length;
+        track_art.src = 'assets/images/no-track.png';
+        track_name.textContent = '';
+        track_artist.textContent = '';
+        
+    } else { // track(s) to play 
+        // Load a new track
+        
+        curr_track.src = track_list[track_index].path;
+        curr_track.load();
 
-    // Set an interval of 1000 milliseconds for updating the seek slider
-    updateTimer = setInterval(seekUpdate, 1000);
+        // Update details of the track
+        // track_art.style.backgroundImage = "url(" + track_list[track_index].image + ")";
+        track_art.src = track_list[track_index].image
+        track_name.textContent = track_list[track_index].name;
+        track_artist.textContent = track_list[track_index].artist + " - ";
+        now_playing.textContent = "PLAYING " + (track_index + 1) + " OF " + track_list.length;
 
-    // Move to the next track if the current one finishes playing
-    curr_track.addEventListener("ended", nextTrack);
+        // Play track
+        playTrack();
+
+        // Set an interval of 1000 milliseconds for updating the seek slider
+        updateTimer = setInterval(seekUpdate, 1000);
+
+        // Move to the next track if the current one finishes playing
+        curr_track.addEventListener("ended", nextTrack);
+
+    }
+
 }
-
 
 // Reset Values
 function resetValues() {
@@ -64,6 +79,9 @@ function playpauseTrack() {
 function playTrack() {
     curr_track.play();
     isPlaying = true;
+
+    const latest_track_list = track_list.filter(e => e !== track_list[track_index]);
+    track_list = latest_track_list;
 }
 
 function pauseTrack() {
@@ -75,17 +93,10 @@ function pauseTrack() {
 }
 
 function nextTrack() {
-    if (track_index < track_list.length - 1)
-        track_index += 1;
+    if (track_index < track_list.length - 1) {
+    }
     else track_index = 0;
     loadTrack(track_index);
-    playTrack();
-
-//     // Remove track currently playing from playlist so it doesn't keep repeating
-//     const new_track_list = track_list.filter(e => e !== track_list[track_index]);
-//     track_list = new_track_list;
-//   //  if (track_list.length == 0) isPlaying = false;
-
 }
 
 function prevTrack() {

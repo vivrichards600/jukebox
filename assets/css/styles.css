@@ -15,6 +15,7 @@ body {
 
 .player-controls {
     margin: 25px 0px;
+    margin-top: 40px;
 }
 
 
@@ -116,4 +117,9 @@ marquee {
     width: 300px;
     min-width: 300px;
     float: left;
+}
+
+.playing-now {
+    float: left;
+    width: 45%;
 }

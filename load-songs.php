@@ -1,4 +1,6 @@
 <?php 
+header('Content-Type: text/html; charset=utf-8');
+
 function loadSongs()
 {
     return glob("music/*.mp3");
@@ -25,3 +27,4 @@ require("getid3/getid3.php");
 
 // Initialize getID3 engine
 $getID3 = new getID3;
+$getID3->setOption(array('encoding' => 'UTF-8'));

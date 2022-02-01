@@ -34,6 +34,10 @@ include 'load-songs.php';
 </head>
 
 <body>
+<div id="loading">
+  <h4 class="alert-heading">Loading</h4>
+  <p>This might take a few minutes.</p>
+</div>
     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
@@ -98,7 +102,9 @@ include 'load-songs.php';
                                                             echo $album;
                                                             ?></p>
                             </div>
-                            <a href="#" class="btn btn-primary" data-artist="<?php echo $song['tags']['id3v2']['artist'][0]; ?>" data-image="<?php echo $base64; ?>" data-title="<?php echo $song['tags']['id3v2']['title'][0]; ?>" data-file-path="<?php echo $song['filename']; ?>" onclick="addTrackToPlaylist(this);">Select (<?php echo $song['playtime_string']; ?>)</a>
+                            <button disabled type="button" class="btn btn-primary" data-artist="<?php echo $song['tags']['id3v2']['artist'][0]; ?>" data-image="<?php echo $base64; ?>" data-title="<?php echo $song['tags']['id3v2']['title'][0]; ?>" data-file-path="<?php echo $song['filename']; ?>" onclick="addTrackToPlaylist(this);">Select (<?php echo $song['playtime_string']; ?>)</a>
+
+
 
                         </div>
                     </div>
@@ -145,7 +151,7 @@ include 'load-songs.php';
 
                         // update how many tracks in playlist
                         now_playing.textContent = "PLAYING " + (track_index + 1) + " OF " + track_list.length;
-                        
+
                         getPlayingNext();
                     }
                 </script>
@@ -160,15 +166,15 @@ include 'load-songs.php';
             <img class="track-art" alt="song art" src="assets/images/no-track.png" />
 
             <div class="playing-now">
-            <h4>Now Playing:</h4>
+                <h4>Now Playing:</h4>
                 <span class="track-artist"></span><span class="track-name"></span>
             </div>
             <div class="up-next">
-            <h4>Up Next:</h4>
-            
+                <h4>Up Next:</h4>
+
                 <span class="playing-next"></span>
             </div>
-            
+
             <div class="seek-and-volume"><span class="current-time">00:00</span><span class="total-duration">0:00</span>
                 <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
                 <i class="fa fa-volume-down"></i>
@@ -184,13 +190,20 @@ include 'load-songs.php';
             <div class="now-playing" style="display:none;">PLAYING x OF y</div>
         </div>
 
-        
+
 
         </footer>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="assets/scripts/music-player.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // display loading message until all songs and player fully loaded
+                document.getElementById('loading').style.display = "none";
+            });
+        </script>
 </body>
 
 </html>

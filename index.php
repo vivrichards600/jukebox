@@ -11,7 +11,6 @@ include 'load-songs.php';
     <!-- Load FontAwesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 
-    <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <!-- CSS style for audio player div -->
@@ -34,10 +33,13 @@ include 'load-songs.php';
 </head>
 
 <body>
-<div id="loading">
-  <h4 class="alert-heading">Loading</h4>
-  <p>This might take a few minutes.</p>
-</div>
+    <div id="loading">
+        <h4 class="alert-heading">Loading</h4>
+        <p>This might take a few minutes.</p>
+    </div>
+    
+    <div class="pageOfPages"></div>
+
     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
@@ -52,6 +54,8 @@ include 'load-songs.php';
 
 
                 <?php
+                // current page
+                $pageNumber = 1;
                 // number of rows to show per screen
                 $numberOfRows = 0;
 
@@ -72,7 +76,7 @@ include 'load-songs.php';
                     }
 
                     if ($numberOfRows == 0 && $itemsInRow == 0) {
-                        echo '<div class="carousel-item' . $carouselActiveClass . '">';
+                        echo '<div class="carousel-item' . $carouselActiveClass . '"     data-page-number="' . $pageNumber . '">';
                     }
 
                     // add a new row for cards
@@ -93,7 +97,7 @@ include 'load-songs.php';
                                                                                                                                     echo 'assets/images/no-album-art.png';
                                                                                                                                 } ?>" />
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo $song['tags']['id3v2']['artist'][0]; ?> - <?php echo $song['tags']['id3v2']['title'][0]; ?></h5>
+                                <h5 class="card-title"><?php echo substr($song['tags']['id3v2']['artist'][0],0,50); ?><?php if(strlen($song['tags']['id3v2']['artist'][0]) > 50) echo '...'; ?> - <?php echo $song['tags']['id3v2']['title'][0]; ?></h5>
                                 <p class="card-text">Album: <?php
                                                             $album = 'Unknown';
                                                             if ($song['tags']['id3v2']['album'][0] != '') {
@@ -125,6 +129,7 @@ include 'load-songs.php';
                     if ($itemsInRow == 0 && $numberOfRows >= $rows_to_display) {
                         echo '</div>';
                         $numberOfRows = 0;
+                        $pageNumber += 1;
                     }
 
                     ?>
@@ -161,6 +166,7 @@ include 'load-songs.php';
         </div>
     </div>
     </div>
+
     <div>
         <div class="player-controls">
             <img class="track-art" alt="song art" src="assets/images/no-track.png" />
@@ -203,6 +209,74 @@ include 'load-songs.php';
                 // display loading message until all songs and player fully loaded
                 document.getElementById('loading').style.display = "none";
             });
+        </script>
+
+
+
+        <script>
+            // check for idle time - no keyboard interactions/mouse movements
+
+
+            var inactivityTime = function() {
+                var time;
+                window.onload = resetTimer;
+
+                function playRandomSong() {
+                    // check if no song playing and nothing in playlist
+                    if (!isPlaying && track_list.length === 0) {
+                        //no song playing and nothing in playlist
+                        // get all select song buttons
+                        var buttons = document.querySelectorAll("[type=button]");
+                        // get a random song button
+                        var button = buttons[Math.floor(Math.random() * buttons.length)];
+                        // play song
+                        button.click();
+                    }
+
+
+
+                }
+
+                function resetTimer() {
+                    clearTimeout(time);
+                    time = setTimeout(playRandomSong, 300000); // check for 5 minutes of inactivity
+
+                }
+
+                // DOM Events
+                document.addEventListener('scroll', resetTimer, true); // improved; see comments
+
+                window.addEventListener('load', resetTimer, true);
+                var events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+                events.forEach(function(name) {
+                    document.addEventListener(name, resetTimer, true);
+                });
+
+
+            };
+
+            window.onload = function() {
+                inactivityTime();
+            }
+        </script>
+
+        <script>
+            $('#carouselExampleControls').bind('slide.bs.carousel', function(e) {
+              updateCurrentPageOfPages();
+            });
+            // After event
+            $('#carouselExampleControls').bind('slid.bs.carousel', function(e) {
+               updateCurrentPageOfPages();
+            });
+
+            function updateCurrentPageOfPages(){
+                var currentPage = document.getElementsByClassName('active')[0].getAttribute('data-page-number');
+            
+                let page_of_pages = document.querySelector(".pageOfPages");
+                
+                page_of_pages.textContent = `Page ${currentPage} of <?php echo $pageNumber;?>`;
+            }
+            updateCurrentPageOfPages();
         </script>
 </body>
 

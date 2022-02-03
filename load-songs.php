@@ -1,5 +1,4 @@
-<?php 
-header('Content-Type: text/html; charset=utf-8');
+<?php
 
 function loadSongs()
 {
@@ -14,9 +13,9 @@ function getRandomSong($songs)
 $songs = loadSongs();
 
 // // by default sorts by artist, below sorts by song title (name)
-// usort($songs, function($a, $b) { //Sort the array using a user defined function
-//     return $a->name > $b->name ? -1 : 1; //Compare the names
-// });                                                                                                                                                                                                        
+usort($songs, function($a, $b) { //Sort the array using a user defined function
+    return $a->name > $b->name ? -1 : 1; //Compare the names
+});                                                                                                                                                                                                        
 
 // obtains a random song
 //$randomSong = getRandomSong($songs);
@@ -27,4 +26,14 @@ require("getid3/getid3.php");
 
 // Initialize getID3 engine
 $getID3 = new getID3;
-$getID3->setOption(array('encoding' => 'UTF-8'));
+
+function htmlToPlainText($str){
+    $str = str_replace('&nbsp;', ' ', $str);
+    $str = html_entity_decode($str, ENT_QUOTES | ENT_COMPAT , 'UTF-8');
+    // $str = html_entity_decode($str, ENT_HTML5, 'UTF-8');
+    $str = html_entity_decode($str);
+    $str = htmlspecialchars_decode($str);
+    $str = strip_tags($str);
+
+    return $str;
+}

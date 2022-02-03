@@ -15,7 +15,7 @@ body {
 
 .player-controls {
     margin: 25px 0px;
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
 
@@ -128,4 +128,13 @@ div#loading {
     opacity: 0.7;
     text-align: center;
     padding-top: 20%;
+}
+
+a:hover.carousel-control-prev, a:hover.carousel-control-next {
+    background-color: #141414;
+}
+
+.pageOfPages {
+    text-align: center;
+    padding-top: 15px;
 }
